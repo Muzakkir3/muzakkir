@@ -1,0 +1,218 @@
+<html>
+<head>
+    <title>Indian Women Politicians Dashboard</title>
+    <style>
+        /* CSS styles */
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        input[type="text"] {
+            width: 70%;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        #searchButton {
+            padding: 10px 20px;
+            margin-left: 10px;
+        }
+
+        #politiciansContainer {
+            margin-top: 20px;
+        }
+
+        .politician-profile {
+            margin-bottom: 20px;
+            display: none; /* Initially hide the profiles */
+        }
+
+        .politician-profile.show {
+            display: block; /* Display the profiles when shown */
+        }
+
+        .politician-profile h3 {
+            margin-bottom: 5px;
+        }
+
+        .politician-profile p {
+            margin: 0;
+        }
+
+        .politician-profile a {
+            color: #0366d6;
+        }
+
+        #notFoundMessage {
+            display: none; /* Initially hide the "Data not found" message */
+            color: red;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Indian Women Politicians Dashboard</h1>
+        <div>
+            <input type="text" id="searchInput" placeholder="Search women politicians">
+            <button id="searchButton" onclick="searchData()">Search</button>
+        </div>
+        <div id="politiciansContainer"></div>
+        <p id="notFoundMessage">Data not found</p>
+    </div>
+
+    <script>
+        // JavaScript code
+        const politicians = [
+            {
+                name: 'Indira Gandhi',
+                post: 'Former Prime Minister of India',
+                city: 'Allahabad',
+                state: 'Uttar Pradesh',
+                age: 66,
+                party: 'Indian National Congress',
+                wikipedia: 'https://en.wikipedia.org/wiki/Indira_Gandhi',
+                twitter: ''
+            },
+            {
+                name: 'Pratibha Patil',
+                post: 'Former President of India',
+                city: 'Jalgaon',
+                state: 'Maharashtra',
+                age: 87,
+                party: 'Indian National Congress',
+                wikipedia: 'https://en.wikipedia.org/wiki/Pratibha_Patil',
+                twitter: ''
+            },
+            {
+                name: 'Mayawati',
+                post: 'Former Chief Minister of Uttar Pradesh',
+                city: 'Badalpur',
+                state: 'Uttar Pradesh',
+                age: 66,
+                party: 'Bahujan Samaj Party',
+                wikipedia: 'https://en.wikipedia.org/wiki/Mayawati',
+                twitter: 'https://twitter.com/Mayawati'
+            },
+            {
+                name: 'Mamata Banerjee',
+                post: 'Chief Minister of West Bengal',
+                city: 'Kolkata',
+                state: 'West Bengal',
+                age: 66,
+                party: 'All India Trinamool Congress',
+                wikipedia: 'https://en.wikipedia.org/wiki/Mamata_Banerjee',
+                twitter: 'https://twitter.com/MamataOfficial'
+            },
+            {
+                name: 'Sushma Swaraj',
+                post: 'Former Minister of External Affairs',
+                city: 'Ambala',
+                state: 'Haryana',
+                age: 67,
+                party: 'Bharatiya Janata Party',
+                wikipedia: 'https://en.wikipedia.org/wiki/Sushma_Swaraj',
+                twitter: 'https://twitter.com/SushmaSwaraj'
+            },
+            {
+                name: 'Jayalalithaa',
+                post: 'Former Chief Minister of Tamil Nadu',
+                city: 'Mysore',
+                state: 'Tamil Nadu',
+                age: 68,
+                party: 'All India Anna Dravida Munnetra Kazhagam',
+                wikipedia: 'https://en.wikipedia.org/wiki/Jayalalithaa',
+                twitter: ''
+            },
+            {
+                name: 'Mamata Shankar',
+                post: 'Member of Parliament',
+                city: 'Kolkata',
+                state: 'West Bengal',
+                age: 62,
+                party: 'All India Trinamool Congress',
+                wikipedia: 'https://en.wikipedia.org/wiki/Mamata_Shankar',
+                twitter: ''
+            },
+            {
+                name: 'Nirmala Sitharaman',
+                post: 'Minister of Finance and Corporate Affairs',
+                city: 'Madurai',
+                state: 'Tamil Nadu',
+                age: 62,
+                party: 'Bharatiya Janata Party',
+                wikipedia: 'https://en.wikipedia.org/wiki/Nirmala_Sitharaman',
+                twitter: 'https://twitter.com/nsitharaman'
+            },
+            {
+                name: 'Smriti Irani',
+                post: 'Minister of Women and Child Development',
+                city: 'Delhi',
+                state: 'Delhi',
+                age: 45,
+                party: 'Bharatiya Janata Party',
+                wikipedia: 'https://en.wikipedia.org/wiki/Smriti_Irani',
+                twitter: 'https://twitter.com/smritiirani'
+            },
+            {
+                name: 'Priyanka Gandhi Vadra',
+                post: 'General Secretary of Indian National Congress',
+                city: 'Delhi',
+                state: 'Delhi',
+                age: 49,
+                party: 'Indian National Congress',
+                wikipedia: 'https://en.wikipedia.org/wiki/Priyanka_Gandhi_Vadra',
+                twitter: 'https://twitter.com/priyankagandhi'
+            }
+        ];
+
+        function renderPoliticians(filteredPoliticians) {
+            const politiciansContainer = document.getElementById('politiciansContainer');
+            const notFoundMessage = document.getElementById('notFoundMessage');
+
+            politiciansContainer.innerHTML = '';
+            notFoundMessage.style.display = 'none';
+
+            if (filteredPoliticians.length === 0) {
+                notFoundMessage.style.display = 'block';
+            } else {
+                filteredPoliticians.forEach(politician => {
+                    const politicianDiv = document.createElement('div');
+                    politicianDiv.classList.add('politician-profile', 'show'); // Add "show" class to display the profiles
+                    politicianDiv.innerHTML = `
+                        <h3>${politician.name}</h3>
+                        <p>Post: ${politician.post}</p>
+                        <p>City: ${politician.city}</p>
+                        <p>State: ${politician.state}</p>
+                        <p>Age: ${politician.age}</p>
+                        <p>Party: ${politician.party}</p>
+                        <p><a href="${politician.wikipedia}" target="_blank">Wikipedia</a></p>
+                        <p>${politician.twitter ? `Twitter: <a href="${politician.twitter}" target="_blank">${politician.twitter}</a>` : 'Twitter: N/A'}</p>
+                        <hr>
+                    `;
+                    politiciansContainer.appendChild(politicianDiv);
+                });
+            }
+        }
+
+        function searchData() {
+            const searchInput = document.getElementById('searchInput');
+            const searchTerm = searchInput.value.toLowerCase();
+            const filteredPoliticians = politicians.filter(politician => {
+                const name = politician.name.toLowerCase();
+                const state = politician.state.toLowerCase();
+                return name.includes(searchTerm) || state.includes(searchTerm);
+            });
+            renderPoliticians(filteredPoliticians);
+        }
+    </script>
+</body>
+</html>
